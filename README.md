@@ -18,3 +18,4 @@ Un jeu de mots croisés développé en HTML, CSS et JavaScript pur. L'utilisateu
 - Design responsive (adapté aux mobiles, tablettes et ordinateurs)
 
 ## Lien vers la page GitHub Pages
+https://github.com/doua-benali/benali_doua_mots_crois-es
