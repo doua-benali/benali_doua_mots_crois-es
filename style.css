@@ -17,4 +17,160 @@
     position: relative;
     overflow-x: hidden;
   }
+  /* Boutons */
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
   
+  button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    background-color: #00ff9d;
+    color: #0f172a;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #00ff9d;
+  }
+  
+  button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  button:hover {
+    background-color: #00b8ff;
+    border-color: #00b8ff;
+    transform: translateY(-3px);
+    box-shadow: 
+      0 10px 25px rgba(0, 255, 157, 0.4),
+      0 0 0 2px rgba(0, 255, 157, 0.2);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  button.ghost {
+    background-color: transparent;
+    color: #00ff9d;
+    border: 2px solid #00ff9d;
+  }
+  
+  button.ghost:hover {
+    background-color: rgba(0, 255, 157, 0.1);
+    color: #00ff9d;
+    box-shadow: 0 10px 25px rgba(0, 255, 157, 0.3);
+  }
+  
+  /* Section indices */
+  .clues {
+    background: #0f172a;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #00ff9d;
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.5),
+      inset 0 0 30px rgba(0, 255, 157, 0.1);
+    color: #e2e8f0;
+    font-family: "Courier New", monospace;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .clues::before {
+    content: "> HARDWARE TERMINAL v1.0";
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 12px;
+    color: #00ff9d;
+    opacity: 0.5;
+    font-family: "Courier New", monospace;
+  }
+  
+  .clues h2 {
+    color: #00ff9d;
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00ff9d;
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .clues h3 {
+    color: #00ff9d;
+    font-size: 20px;
+    margin: 25px 0 15px;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .clues ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .clues li {
+    margin: 15px 0;
+    padding: 10px 15px;
+    background: rgba(0, 255, 157, 0.05);
+    border-left: 3px solid #00ff9d;
+    font-family: "Courier New", monospace;
+    transition: all 0.2s ease;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .clues li:hover {
+    background: rgba(0, 255, 157, 0.1);
+    transform: translateX(5px);
+  }
+  
+  .clues li strong {
+    color: #00ff9d;
+    font-weight: 700;
+  }
+  
+  /* Timer */
+  #timer {
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Courier New", monospace;
+    background: #0f172a;
+    color: #00ff9d;
+    padding: 15px 25px;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 20px 0;
+    border: 2px solid #00ff9d;
+    box-shadow: 
+      0 0 20px rgba(0, 255, 157, 0.3),
+      inset 0 0 10px rgba(0, 255, 157, 0.2);
+    letter-spacing: 5px;
+    position: relative;
+    animation: timerPulse 2s infinite;
+  }
