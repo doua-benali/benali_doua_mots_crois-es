@@ -17,6 +17,276 @@
     position: relative;
     overflow-x: hidden;
   }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 20px 20px, rgba(0, 255, 157, 0.05) 1px, transparent 1px),
+      linear-gradient(45deg, transparent 45%, rgba(0, 255, 157, 0.03) 50%, transparent 55%);
+    background-size: 40px 40px, 200% 200%;
+    pointer-events: none;
+    z-index: 0;
+    animation: circuitMove 20s linear infinite;
+  }
+  
+  @keyframes circuitMove {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 40px 40px, 200% 200%; }
+  }
+  
+  .container {
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  
+  h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    text-align: center;
+    color: #00ff9d;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 
+      0 0 10px rgba(0, 255, 157, 0.5),
+      0 0 20px rgba(0, 255, 157, 0.3),
+      0 0 30px rgba(0, 255, 157, 0.1);
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 10px rgba(0, 255, 157, 0.5), 0 0 20px rgba(0, 255, 157, 0.3); }
+    50% { text-shadow: 0 0 15px rgba(0, 255, 157, 0.8), 0 0 30px rgba(0, 255, 157, 0.5), 0 0 40px rgba(0, 255, 157, 0.3); }
+  }
+  
+  /* Layout principal */
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    margin-top: 20px;
+  }
+  
+  /* Section grille */
+  .grid-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(26, 32, 44, 0.7);
+    backdrop-filter: blur(5px);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 157, 0.2);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.5),
+      inset 0 0 30px rgba(0, 255, 157, 0.1);
+  }
+  
+  /* Grille de jeu */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(10, 45px);
+    grid-template-rows: repeat(10, 45px);
+    gap: 4px;
+    background: #0f172a;
+    padding: 8px;
+    border-radius: 15px;
+    box-shadow: 
+      0 0 0 2px #00ff9d,
+      0 10px 30px rgba(0, 255, 157, 0.3),
+      inset 0 0 20px rgba(0, 255, 157, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .grid::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff9d, #00b8ff, #00ff9d);
+    border-radius: 17px;
+    z-index: -1;
+    animation: borderGlow 3s linear infinite;
+    opacity: 0.5;
+  }
+  
+  @keyframes borderGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  
+  .grid:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 255, 157, 0.4);
+  }
+  
+  /* Cellules */
+  .cell {
+    background-color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    border: 1px solid #334155;
+    box-shadow: inset 0 -2px 0 #0f172a;
+    position: relative;
+    color: #00ff9d;
+  }
+  
+  .cell:hover {
+    background-color: #2d3a4f;
+    transform: translateY(-2px);
+    border-color: #00ff9d;
+    box-shadow: 
+      0 5px 15px rgba(0, 255, 157, 0.3),
+      inset 0 -2px 0 #00ff9d;
+  }
+  
+  .cell.selected {
+    background-color: #2d3a4f;
+    border: 2px solid #00ff9d;
+    box-shadow: 0 0 15px #00ff9d;
+  }
+  
+  .cell.correct {
+    background-color: #064e3b;
+    color: #00ff9d;
+    border-color: #00ff9d;
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+    animation: correctPulse 0.5s ease;
+  }
+  
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); box-shadow: 0 0 30px #00ff9d; }
+    100% { transform: scale(1); }
+  }
+  
+  .cell.incorrect {
+    background-color: #7f1d1d;
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+  }
+  
+  .cell.blocked {
+    background-color: #0f172a;
+    background-image: 
+      radial-gradient(circle at 30% 30%, #334155 2px, transparent 2px),
+      repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0, 255, 157, 0.05) 5px, rgba(0, 255, 157, 0.05) 10px);
+    cursor: not-allowed;
+    border-color: #1e293b;
+  }
+  
+  .cell.blocked:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Numéros de cellule */
+  .cell-number {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 10px;
+    color: #00ff9d;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+  
+  /* Input dans les cellules */
+  .cell input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    outline: none;
+    color: #00ff9d;
+    caret-color: #00ff9d;
+    font-family: "Courier New", monospace;
+  }
+  
+  .cell input:focus {
+    animation: cursorBlink 1s infinite;
+  }
+  
+  @keyframes cursorBlink {
+    0%, 50% { caret-color: #00ff9d; }
+    51%, 100% { caret-color: transparent; }
+  }
+  
+  /* Barre de progression */
+  .meta {
+    width: 100%;
+    margin-top: 25px;
+    text-align: center;
+  }
+  
+  .meta p {
+    color: #e2e8f0;
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  #percent {
+    color: #00ff9d;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  .progress {
+    background-color: #1e293b;
+    border-radius: 15px;
+    height: 25px;
+    margin: 15px 0;
+    overflow: hidden;
+    border: 1px solid #334155;
+    position: relative;
+  }
+  
+  .progress::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(90deg,transparent,transparent 10px,rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px);
+    pointer-events: none;
+  }
+  
+  #bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff9d, #00b8ff, #00ff9d);
+    width: 0%;
+    transition: width 0.3s ease;
+    background-size: 200% 100%;
+    animation: progressStripes 2s linear infinite;
+  }
+  
+  @keyframes progressStripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 200% 0; }
+  }
   /* Boutons */
 .buttons {
     display: flex;
