@@ -241,7 +241,7 @@ class Crossword {
       this.focusNextCell(x, y);
     }, 10);
   }
-  handleKeyNavigation(e, x, y) {
+   handleKeyNavigation(e, x, y) {
     if (e.key === "ArrowRight") {
       e.preventDefault();
       this.moveFocus(x + 1, y);
@@ -267,6 +267,63 @@ class Crossword {
       } else {
         this.moveFocus(x - 1, y);
       }
+    }
+  }
+  focusNextCell(x, y) {
+    // Trouver la direction du mot actuel
+    const direction = this.getCurrentWordDirection(x, y);
+    
+    if (direction === "across") {
+      // Se déplacer vers la droite (sur la même ligne)
+      this.moveFocus(x + 1, y);
+    } else if (direction === "down") {
+      // Se déplacer vers le bas (même colonne)
+      this.moveFocus(x, y + 1);
+    } else {
+      // Par défaut : se déplacer vers la droite
+      this.moveFocus(x + 1, y);
+    }
+  }
+
+  getCurrentWordDirection(x, y) {
+    // Vérifier à quel mot appartient cette case
+    for (let wordObj of this.words) {
+      const { word, x: startX, y: startY, direction } = wordObj;
+      
+      if (direction === "across") {
+        // Vérifier si la case est sur cette ligne horizontale
+        if (y === startY && x >= startX && x < startX + word.length) {
+          return "across";
+        }
+      } else if (direction === "down") {
+        // Vérifier si la case est sur cette colonne verticale
+        if (x === startX && y >= startY && y < startY + word.length) {
+          return "down";
+        }
+      }
+    }
+    return null;
+  }
+
+  moveFocus(x, y) {
+    if (x < 0 || y < 0 || x >= this.gridSize || y >= this.gridSize) return;
+    if (this.grid[y][x].blocked) {
+      // Si case bloquée, essayer la suivante
+      if (x + 1 < this.gridSize) {
+        this.moveFocus(x + 1, y);
+      } else if (y + 1 < this.gridSize) {
+        this.moveFocus(0, y + 1);
+      }
+      return;
+    }
+
+    const gridElement = document.querySelector("#crossword");
+    const index = y * this.gridSize + x;
+    const cell = gridElement.children[index];
+    const input = cell.querySelector("input");
+
+    if (input) {
+      setTimeout(() => input.focus(), 10);
     }
   }
 
