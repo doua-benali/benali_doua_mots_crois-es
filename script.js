@@ -241,4 +241,33 @@ class Crossword {
       this.focusNextCell(x, y);
     }, 10);
   }
+  handleKeyNavigation(e, x, y) {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      this.moveFocus(x + 1, y);
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      this.moveFocus(x - 1, y);
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      this.moveFocus(x, y - 1);
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      this.moveFocus(x, y + 1);
+    }
+
+    if (e.key === "Backspace") {
+      if (this.userInput[`${x},${y}`]) {
+        delete this.userInput[`${x},${y}`];
+        this.renderGrid();
+        this.updateProgress();
+      } else {
+        this.moveFocus(x - 1, y);
+      }
+    }
+  }
+
 }
