@@ -85,4 +85,117 @@ class Crossword {
 
     this.init();
   }
+  
+  init() {
+    this.createGrid();
+    this.placeWords();
+    this.renderGrid();
+    this.setupEventListeners();
+    this.updateProgress();
+    this.startTimer();
+  }
+
+  createGrid() {
+    this.grid = [];
+    for (let y = 0; y < this.gridSize; y++) {
+      this.grid[y] = [];
+      for (let x = 0; x < this.gridSize; x++) {
+        this.grid[y][x] = {
+          letter: "",
+          blocked: true,
+          number: null,
+        };
+      }
+    }
+  }
+
+  placeWords() {
+    // Réinitialiser toutes les cases
+    for (let y = 0; y < this.gridSize; y++) {
+      for (let x = 0; x < this.gridSize; x++) {
+        this.grid[y][x].blocked = true;
+        this.grid[y][x].letter = "";
+        this.grid[y][x].number = null;
+      }
+    }
+
+    let wordNumber = 1;
+
+    this.words.forEach((wordObj) => {
+      const { word, x, y, direction } = wordObj;
+
+      // Vérifier que le mot ne dépasse pas de la grille
+      if (direction === "across" && x + word.length > this.gridSize) return;
+      if (direction === "down" && y + word.length > this.gridSize) return;
+
+      this.grid[y][x].number = wordNumber;
+
+      for (let i = 0; i < word.length; i++) {
+        const currentX = direction === "across" ? x + i : x;
+        const currentY = direction === "down" ? y + i : y;
+
+        this.grid[currentY][currentX].letter = word[i];
+        this.grid[currentY][currentX].blocked = false;
+      }
+
+      wordNumber++;
+    });
+  }
+
+  renderGrid() {
+    const gridElement = document.getElementById("crossword");
+    if (!gridElement) return;
+
+    gridElement.innerHTML = "";
+
+    for (let y = 0; y < this.gridSize; y++) {
+      for (let x = 0; x < this.gridSize; x++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+
+        if (this.grid[y][x].blocked) {
+          cell.classList.add("blocked");
+        } else {
+          if (this.grid[y][x].number) {
+            const number = document.createElement("div");
+            number.className = "cell-number";
+            number.textContent = this.grid[y][x].number;
+            cell.appendChild(number);
+          }
+
+          const input = document.createElement("input");
+          input.type = "text";
+          input.maxLength = 1;
+
+          const cellKey = `${x},${y}`;
+          if (this.userInput[cellKey]) {
+            input.value = this.userInput[cellKey];
+          }
+
+          input.addEventListener("input", (e) => {
+            this.handleCellInput(x, y, e.target.value);
+          });
+
+          input.addEventListener("keydown", (e) => {
+            this.handleKeyNavigation(e, x, y);
+          });
+
+          input.addEventListener("focus", () => {
+            this.activeInput = { x, y };
+            cell.classList.add("selected");
+          });
+
+          input.addEventListener("blur", () => {
+            cell.classList.remove("selected");
+          });
+
+          cell.appendChild(input);
+
+          this.updateCellAppearance(cell, x, y);
+        }
+
+        gridElement.appendChild(cell);
+      }
+    }
+  }
 }
