@@ -198,4 +198,47 @@ class Crossword {
       }
     }
   }
+  updateCellAppearance(cell, x, y) {
+    const cellKey = `${x},${y}`;
+    cell.classList.remove("correct", "incorrect");
+
+    if (this.userInput[cellKey]) {
+      const expected = this.grid[y][x].letter
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+      const user = this.userInput[cellKey]
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
+      if (expected === user) {
+        cell.classList.add("correct");
+      } else {
+        cell.classList.add("incorrect");
+      }
+    }
+  }
+
+  handleCellInput(x, y, value) {
+    const cellKey = `${x},${y}`;
+
+    if (value) {
+      value = value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase()
+        .slice(0, 1);
+      this.userInput[cellKey] = value;
+    } else {
+      delete this.userInput[cellKey];
+    }
+
+    this.renderGrid();
+    this.updateProgress();
+
+    setTimeout(() => {
+      this.focusNextCell(x, y);
+    }, 10);
+  }
 }
