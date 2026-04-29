@@ -11,13 +11,13 @@ Ce projet est un jeu de mots croisés interactif jouable directement dans le nav
 ---
 
 ## 🚀 Technologies utilisées
-|-----------------|----------------------------------------------------------------------|
-| Technologie     | Utilisation                                                          |
+
+| Technologie     | Utilisation                                                          
 |-----------------|----------------------------------------------------------------------|
 | **HTML**        | Structure de la page et de la grille                                 |
 | **CSS**         | Flexbox, Grid, animations, design responsive                         |
 | **JavaScript ** | Logique du jeu, gestion des événements, vérification des réponses    |
-|-----------------|----------------------------------------------------------------------|
+
 ---
 
 ## ✨ Fonctionnalités principales
@@ -45,6 +45,26 @@ Ce projet est un jeu de mots croisés interactif jouable directement dans le nav
 4. La case devient **verte** si la lettre est correcte, **rouge** sinon
 5. Consultez les **indices** pour vous aider
 6. Terminez la grille pour voir votre score final
+
+---
+
+## ⚠️ La difficulté principale : faire croiser les mots
+
+La partie la plus complexe de ce projet a été de **faire se croiser les mots entre eux**.
+
+### Le problème
+Dans un mots croisés, les mots ne sont pas placés n'importe comment. Un mot horizontal et un mot vertical doivent parfois partager la même lettre à une certaine position. Il faut donc :
+- Placer chaque mot à un endroit précis
+- Vérifier que les lettres qui se croisent correspondent
+- Éviter les conflits (une case ne peut pas avoir deux lettres différentes)
+
+### Ma solution
+
+J'ai créé un tableau (`wordsList`) où chaque mot a :
+- Sa position de départ (coordonnées x, y)
+- Sa direction (`across` = horizontal, `down` = vertical)
+- Sa définition
+
 
 ---
 
